@@ -32,20 +32,20 @@ module.exports = class Message extends Listener {
             afkhandler.execute(message);
 
             // autoresponses
-            Object.keys(autoresponses).forEach(function(response){
-                if(autoresponses[response].wildcard) {
-                if(message.content.includes(response) && !message.content.startsWith(`${config[message.guild?.id as string].prefix}ar delete`)) {
-                    message.channel.send(autoresponses[response].response + " ");
-                    return;
-                }
-                }
-                if(message.content.startsWith(response)) {
-                message.channel.send(autoresponses[response].response + " ");
-                }
-            })                                                              // charon role \/
-            if((message.mentions.users.has(client.user?.id as string) || message.content.includes("714199666538840114")) && message.content.includes("?") && (message.content.toLowerCase().includes("who") || message.content.toLowerCase().includes("what") || message.content.toLowerCase().includes("when") || message.content.toLowerCase().includes("where") || message.content.toLowerCase().includes("why") || message.content.toLowerCase().includes("how") || message.content.toLowerCase().includes("can"))) {
-                message.channel.send("I can't answer that! I'm not an AI..\n\n..yet")
-            }
+            // Object.keys(autoresponses).forEach(function(response){
+            //     if(autoresponses[response].wildcard) {
+            //     if(message.content.includes(response) && !message.content.startsWith(`${config[message.guild?.id as string].prefix}ar delete`)) {
+            //         message.channel.send(autoresponses[response].response + " ");
+            //         return;
+            //     }
+            //     }
+            //     if(message.content.startsWith(response)) {
+            //     message.channel.send(autoresponses[response].response + " ");
+            //     }
+            // })                                                              // charon role \/
+            // if((message.mentions.users.has(client.user?.id as string) || message.content.includes("714199666538840114")) && message.content.includes("?") && (message.content.toLowerCase().includes("who") || message.content.toLowerCase().includes("what") || message.content.toLowerCase().includes("when") || message.content.toLowerCase().includes("where") || message.content.toLowerCase().includes("why") || message.content.toLowerCase().includes("how") || message.content.toLowerCase().includes("can"))) {
+            //     message.channel.send("I can't answer that! I'm not an AI..\n\n..yet")
+            // }
 
             if(message.content == 'triggerautovote' && message.member?.roles.cache.has('640734971107082240')) {
                 Object.keys(recurringVoters.users).forEach(value => {

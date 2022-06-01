@@ -1,40 +1,15 @@
 interface APIData {
-    id: string
+    id?: string
     message?: string
     senddm: boolean
 }
 
-export interface AFKData {
-    [key: string]: {
-        afktime: number
-        message: string
-    }
-}
-
-export interface AutoVoteData {
-    users: {
-        [key: string]: string
-    }
-}
-
-export interface ConfigData {
-    [key: string]: {
-        prefix: string
-        welcomemsg: string
-    }
-}
-
-export interface AutoResponseData {
-    [key: string]: {
-        response: string
-        creatorid: string
-        wildcard?: boolean
-    }
-}
-
-export interface BannedAutoVotersData {
-    [key: string]: boolean
-}
+// i just need it to work i don't care how bad this is
+// i can fix it later
+export type AutoVoteData = any
+export type ConfigData = any
+export type AutoResponseData = any
+export type BannedAutoVotersData = any
 
 import { Client, Intents } from 'discord.js'
 import fs from 'fs'
@@ -46,8 +21,8 @@ import { Listener } from './abstractlistener'
 import { AFKHandler } from './afkhandler'
 export let afkhandler = new AFKHandler()
 
-import * as _afk from './afk.json'
-export let afk = _afk as AFKData
+export let afk = {} as any
+
 import * as _config from './config.json'
 export let config = _config as ConfigData
 import * as _recurringVoters from './recurringVoters.json'
@@ -114,9 +89,9 @@ app.post("/afk", (req, res) => {
                     "message": json.message
                 }
             }
-            fs.writeFile('./afk.json', JSON.stringify(afk), function (err) {
-                if (err) return console.log(err);
-            });
+            try{
+                    delete afk.default
+                } catch (e){}
             if(json.senddm != null && json.senddm == true) {
                 client.users.cache.get(json.id)?.send("Afk message set to `" + json.message + "`")
             }
@@ -134,10 +109,7 @@ app.post("/back", (req, res) => {
     if(json.id) {
         if(client.users.cache.get(json.id)) {
             if(afk[json.id]) {
-                delete afk[json.id];
-                fs.writeFile('./afk.json', JSON.stringify(afk), function (err) {
-                    if (err) return console.log(err);
-                });
+                delete afk[json.id] as any;
                 if(json.senddm != null && json.senddm == true) {
                     client.users.cache.get(json.id)?.send("Removed your afk!")
                 }

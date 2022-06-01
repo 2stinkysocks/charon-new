@@ -21,7 +21,7 @@ module.exports = class AutoVote extends Command {
                 fs.writeFile('./bannedAutoVoters.json', JSON.stringify(bannedAutoVoters), function (err) {
                 if (err) return console.log(err);
                 });
-                delete recurringVoters.users[userToBan.id];
+                delete recurringVoters.users[userToBan.id] as any;
                 interaction.reply(`${userToBan.user.username} is now banned`);
                 return;
             } else if(interaction.options.getString('operation') == "unban") {
@@ -38,11 +38,12 @@ module.exports = class AutoVote extends Command {
 
             if(interaction.options.getString('operation') == 'list') {
                 var autovoteList = "";
-                Object.keys(recurringVoters.users).forEach(voter => {
-                var currentVoter = client.users.cache.get(voter) as User
-                autovoteList += recurringVoters.users[voter] + ' - ' + currentVoter.tag + '\n';
+                await interaction.guild?.members.fetch()
+                Object.keys(recurringVoters.users).forEach(async voter => {
+                    var currentVoter = client.users.cache.get(voter) as User
+                    autovoteList += recurringVoters.users[voter] + ' - ' + currentVoter.tag + '\n';
                 });
-                if(autovoteList == "") return interaction.reply({content: "There are no current autovoters for any list!", ephemeral: true});
+                if(autovoteList == "") return interaction.reply({content: "There are no current autovoters for any list!", ephemeral: false});
                 interaction.reply({embeds: [{
                 color:4360181,
                 title:`Current Autovoters`,
@@ -62,7 +63,7 @@ module.exports = class AutoVote extends Command {
                 interaction.reply({content: `**You are now set to vote in to the ${interaction.options.getString('list')} list each week.**`, ephemeral: false});
             } else if(interaction.options.getString('operation') == "disable") {
                 if(recurringVoters.users[interaction.user.id] == null) return interaction.reply({content: `You are not currently set to vote in automatically!`, ephemeral: true});
-                delete recurringVoters.users[interaction.user.id];
+                delete recurringVoters.users[interaction.user.id] as any;
                 fs.writeFile('./recurringVoters.json', JSON.stringify(recurringVoters), function (err) {
                 if (err) return console.log(err);
                 });
@@ -74,6 +75,7 @@ module.exports = class AutoVote extends Command {
             .addStringOption(option =>
                 option.setName('operation')
                 .setDescription('The operation to execute')
+                .setRequired(true)
                 .addChoices(
                     {name: 'enable', value: 'enable'},
                     {name: 'disable', value: 'disable'},

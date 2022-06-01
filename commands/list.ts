@@ -34,7 +34,8 @@ module.exports = class List extends Command {
             .setAuthor(`Current Whitestar Lists`)
             .setFooter(`Charon - Society of Sin`, `https://cdn.discordapp.com/app-icons/787495162909032448/8ebf962e89f2d189c9634fcf7395e2af.png?size=256`)
             .setTimestamp(new Date());
-            setTimeout(async () => { //           \/  (got lazy)
+            setTimeout(async () => {
+                await interaction.guild?.members.fetch()
                 const vcrole = await (interaction?.guild?.roles as RoleManager).fetch(vcid) as Role
                 const sosrole = await (interaction?.guild?.roles as RoleManager).fetch(sosid) as Role
                 const rsvdrole = await (interaction?.guild?.roles as RoleManager).fetch(rsvdid) as Role

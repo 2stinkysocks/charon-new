@@ -99,7 +99,7 @@
 //           return message.channel.send(
 //             `Only officers can remove other peoples' autoresponses!`
 //           )
-//         delete autoresponses[args[1]]
+//         autoresponses[args[1]] = undefined
 //         fs.writeFile(
 //           "./autoresponses.json",
 //           JSON.stringify(autoresponses),

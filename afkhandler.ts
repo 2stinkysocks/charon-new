@@ -2,20 +2,17 @@
 
 import { Message } from "discord.js";
 import { afk, config } from ".";
-import fs from 'fs'
 import pms from 'pretty-ms'
 
 export class AFKHandler {
     allowedChannelIds = ['640913665700134912','640734812872769548','651777584127803402','651113562231799828','782319549156032512','640734833605214250','698677442348449822','641777417769189414','641777443610427412','651777710426816523','640913631923404801','705296702479007765','732298122432217139','732298190568554568','782314659822829568','782314762410131476']
     execute(message: Message) {
         if(message.content.startsWith(`${config[message.guild?.id as string].prefix}afk`) && afk[message.author.id] != undefined) return;
+        if(message.author.bot) return
         if(afk[message.author.id] != undefined) {
             delete afk[message.author.id];
-            fs.writeFile('./afk.json', JSON.stringify(afk), function (err) {
-                if (err) return console.log(err);
-            });
             message.channel.send("Welcome back, "+ message.author.toString() +"! Removed your afk.").then(msg => {
-                msg.delete();
+                setTimeout(() => msg.delete(), 1000)
             });
         }
         var allowedToSend = false;
