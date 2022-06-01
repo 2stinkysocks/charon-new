@@ -17,13 +17,15 @@ module.exports = class Message extends Listener {
             imageChannels.forEach(channel => {
                 if(message.channel.id == channel.id) {            
                     if(message.attachments.size == 0 && !(message.content.includes('https://') || message.content.includes('http://'))) {
-                        message.delete()
-                        message.channel.send({embeds: [
-                            new MessageEmbed()
-                            .setColor('#FF0000')
-                            .setTitle('This is a media-only channel!')
-                            .setDescription('```\nOnly messages with attachments or embedded links are allowed!\n```')
-                        ]}).then(msg => {msg.delete()});
+                        setTimeout(async () => {
+                            message.channel.send({embeds: [
+                                new MessageEmbed()
+                                .setColor('#FF0000')
+                                .setTitle('This is a media-only channel!')
+                                .setDescription('```\nOnly messages with attachments or embedded links are allowed!\n```')
+                            ]}).then(msg => {msg.delete()});
+                            await message.delete()
+                        }, 1000)
                     }
                 }
             })
