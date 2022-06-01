@@ -6,6 +6,8 @@ module.exports = class Message extends Listener {
     constructor(client: Client) {
         super(client)
         super.register('message', message => {
+            if(message.author.bot) return
+
             // image channels
             let memes = client.channels.cache.get('640710843771650068');
             let jukebox = client.channels.cache.get('834217783495098378');
@@ -15,7 +17,8 @@ module.exports = class Message extends Listener {
             imageChannels.push(jukebox);
             imageChannels.push(vanity);
             imageChannels.forEach(async channel => {
-                if(message.channel.id == channel.id) {            
+                if(message.channel.id == channel.id) {
+                    console.log("found " + channel.id)            
                     if(message.attachments.size == 0 && !(message.content.includes('https://') || message.content.includes('http://'))) {
                         let msg = await message.channel.send({embeds: [
                             new MessageEmbed()
@@ -23,10 +26,10 @@ module.exports = class Message extends Listener {
                             .setTitle('This is a media-only channel!')
                             .setDescription('```\nOnly messages with attachments or embedded links are allowed!\n```')
                         ]})
-                        await message.delete()
+                        message.delete()
                         setTimeout(async () => {
                             msg.delete()
-                        }, 1000)
+                        }, 4000)
                     }
                 }
             })
