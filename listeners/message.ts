@@ -14,17 +14,18 @@ module.exports = class Message extends Listener {
             imageChannels.push(memes);
             imageChannels.push(jukebox);
             imageChannels.push(vanity);
-            imageChannels.forEach(channel => {
+            imageChannels.forEach(async channel => {
                 if(message.channel.id == channel.id) {            
                     if(message.attachments.size == 0 && !(message.content.includes('https://') || message.content.includes('http://'))) {
+                        let msg = await message.channel.send({embeds: [
+                            new MessageEmbed()
+                            .setColor('#FF0000')
+                            .setTitle('This is a media-only channel!')
+                            .setDescription('```\nOnly messages with attachments or embedded links are allowed!\n```')
+                        ]})
+                        await message.delete()
                         setTimeout(async () => {
-                            message.channel.send({embeds: [
-                                new MessageEmbed()
-                                .setColor('#FF0000')
-                                .setTitle('This is a media-only channel!')
-                                .setDescription('```\nOnly messages with attachments or embedded links are allowed!\n```')
-                            ]}).then(msg => {msg.delete()});
-                            await message.delete()
+                            msg.delete()
                         }, 1000)
                     }
                 }
