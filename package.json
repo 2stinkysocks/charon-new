@@ -11,13 +11,21 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/body-parser": "^1.19.2",
+    "@types/express": "^4.17.13",
     "@types/node": "^17.0.38",
+    "@types/node-cron": "^3.0.1",
     "typescript": "^4.6.4"
   },
   "dependencies": {
     "@discordjs/builders": "^0.13.0",
+    "body-parser": "^1.20.0",
     "discord-api-types": "^0.33.1",
     "discord.js": "^13.7.0",
-    "dotenv": "^16.0.1"
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "node-cron": "^3.0.0",
+    "pretty-ms": "^7.0.1",
+    "timestring": "^6.0.0"
   }
 }
