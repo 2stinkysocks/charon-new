@@ -64,7 +64,7 @@ app.use(bodyParser.json())
 
 app.listen(8080)
 
-export const client: Client = new Client({ intents: [Intents.FLAGS.GUILDS]})
+export const client: Client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGES]})
 
 export let commands: Array<Command> = new Array<Command>()
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.ts'))

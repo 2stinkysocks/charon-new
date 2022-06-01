@@ -2,6 +2,12 @@ import { SlashCommandBuilder } from "@discordjs/builders"
 import { GuildMemberRoleManager, MessageEmbed, Role, RoleManager, TextChannel } from "discord.js"
 import { Command } from "../abstractcommand"
 
+const vcid = '643885054254252042'
+const sosid = '643885092099588106'
+const rsvdid = '732295056844914799'
+const alliesid = '725829245884170270'
+const fillid = '642038226734809090'
+
 module.exports = class VoteIn extends Command {
 
     constructor() {
@@ -41,10 +47,15 @@ module.exports = class VoteIn extends Command {
             .setAuthor(`Current Whitestar Lists`)
             .setFooter(`Charon - Society of Sin`, `https://cdn.discordapp.com/app-icons/787495162909032448/8ebf962e89f2d189c9634fcf7395e2af.png?size=256`)
             .setTimestamp(new Date());
-            setTimeout(() => { //           \/  (got lazy)
-            if((interaction?.guild?.roles as any).cache.find((role: { name: string }) => role.name == `vc list`).members.size > 0) {
+            setTimeout(async () => { //           \/  (got lazy)
+                const vcrole = await (interaction?.guild?.roles as RoleManager).fetch(vcid) as Role
+                const sosrole = await (interaction?.guild?.roles as RoleManager).fetch(sosid) as Role
+                const rsvdrole = await (interaction?.guild?.roles as RoleManager).fetch(rsvdid) as Role
+                const alliesrole = await (interaction?.guild?.roles as RoleManager).fetch(alliesid) as Role
+                const fillrole = await (interaction?.guild?.roles as RoleManager).fetch(fillid) as Role
+            if(vcrole.members.size > 0) {
                 var listString = "";
-                (interaction?.guild?.roles as any).cache.find((role: { name: string }) => role.name == `vc list`).members.forEach((member: { id: any; user: { tag: string } }) => {
+                vcrole.members.forEach((member: { id: any; user: { tag: string } }) => {
                     if(member.id == interaction.user.id) {
                     listString += "**__" + member.user.tag + "__**\n";
                     } else {
@@ -53,9 +64,9 @@ module.exports = class VoteIn extends Command {
                 })
                 listEmbed.addField(`VC List`, `>>> ${listString}`)
             }
-            if((interaction?.guild?.roles as any).cache.find((role: { name: string }) => role.name == `sos list`).members.size > 0) {
+            if(sosrole.members.size > 0) {
                 var listString = "";
-                (interaction?.guild?.roles as any).cache.find((role: { name: string }) => role.name == `sos list`).members.forEach((member: { id: any; user: { tag: string } }) => {
+                sosrole.members.forEach((member: { id: any; user: { tag: string } }) => {
                     if(member.id == interaction.user.id) {
                     listString += "**__" + member.user.tag + "__**\n";
                     } else {
@@ -64,9 +75,9 @@ module.exports = class VoteIn extends Command {
                 })
                 listEmbed.addField(`SOS List`, `>>> ${listString}`)
             }
-            if((interaction?.guild?.roles as any).cache.find((role: { name: string }) => role.name == `rsvd list`).members.size > 0) {
+            if(rsvdrole.members.size > 0) {
                 var listString = "";
-                (interaction?.guild?.roles as any).cache.find((role: { name: string }) => role.name == `rsvd list`).members.forEach((member: { id: any; user: { tag: string } }) => {
+                rsvdrole.members.forEach((member: { id: any; user: { tag: string } }) => {
                     if(member.id == interaction.user.id) {
                     listString += "**__" + member.user.tag + "__**\n";
                     } else {
@@ -75,9 +86,9 @@ module.exports = class VoteIn extends Command {
                 })
                 listEmbed.addField(`RSVD List`, `>>> ${listString}`)
             }
-            if((interaction?.guild?.roles as any).cache.find((role: { name: string }) => role.name == `allies list`).members.size > 0) {
+            if(alliesrole.members.size > 0) {
                 var listString = "";
-                (interaction?.guild?.roles as any).cache.find((role: { name: string }) => role.name == `allies list`).members.forEach((member: { id: any; user: { tag: string } }) => {
+                alliesrole.members.forEach((member: { id: any; user: { tag: string } }) => {
                     if(member.id == interaction.user.id) {
                     listString += "**__" + member.user.tag + "__**\n";
                     } else {
@@ -86,9 +97,9 @@ module.exports = class VoteIn extends Command {
                 })
                 listEmbed.addField(`Allies List`, `>>> ${listString}`)
             }
-            if((interaction?.guild?.roles as any).cache.find((role: { name: string }) => role.name == `fill list`).members.size > 0) {
+            if(fillrole.members.size > 0) {
                 var listString = "";
-                (interaction?.guild?.roles as any).cache.find((role: { name: string }) => role.name == `fill list`).members.forEach((member: { id: any; user: { tag: string } }) => {
+                fillrole.members.forEach((member: { id: any; user: { tag: string } }) => {
                     if(member.id == interaction.user.id) {
                     listString += "**__" + member.user.tag + "__**\n";
                     } else {
@@ -104,6 +115,7 @@ module.exports = class VoteIn extends Command {
             .setName("votein")
             .addStringOption(option => 
                 option.setName('list')
+                .setDescription('List to vote into')
                 .setRequired(true)
                 .addChoices(
                     {name: 'VC', value: 'vc'},
