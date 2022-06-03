@@ -24,8 +24,8 @@ module.exports = class List extends Command {
               if(interaction.options.getString('list')) {
                 interaction.reply({embeds: [{
                   color:4360181,
-                  title:`Members in ${(interaction?.guild?.roles as any).cache.find((role: { name: string; }) => role.name.toLowerCase() == interaction.options.getString('list') + ' list').name}`,
-                  description: (interaction?.guild?.roles as any).cache.find((role: { name: string; }) => role.name.toLowerCase() == interaction.options.getString('list') + ' list').members.map((m: { user: { tag: any; }; })=>m.user.tag).join('\n')
+                  title:`Members in ${(interaction?.guild?.roles as any).cache.find((role: { name: string; }) => role.name.toLowerCase() == interaction.options.getString('list')).name}`,
+                  description: (interaction?.guild?.roles as any).cache.find((role: { name: string; }) => role.name.toLowerCase() == interaction.options.getString('list')).members.map((m: { user: { tag: any; }; })=>m.user.tag).join('\n')
                 }]});
                 return;
               }
@@ -105,11 +105,13 @@ module.exports = class List extends Command {
                 option.setName('list')
                 .setDescription('Individual list to view')
                 .addChoices(
-                    {name: 'VC', value: 'vc'},
-                    {name: 'SOS', value: 'sos'},
-                    {name: 'RSVD', value: 'rsvd'},
-                    {name: 'Allies', value: 'allies'},
-                    {name: 'Fill', value: 'fill'}
+                    {name: 'VC', value: 'vc list'},
+                    {name: 'SOS', value: 'sos list'},
+                    {name: 'RSVD', value: 'rsvd list'},
+                    {name: 'Allies', value: 'allies list'},
+                    {name: 'Fill', value: 'fill list'},
+                    {name: 'VC-WS', value: 'vc-ws'},
+                    {name: 'SOS-WS', value: 'sos-ws'},
                 )    
             )
             .addBooleanOption(option => 
