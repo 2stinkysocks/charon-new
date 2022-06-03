@@ -22,6 +22,7 @@ module.exports = class List extends Command {
                 return;
               }
               if(interaction.options.getString('list')) {
+                await interaction.guild?.members.fetch()
                 interaction.reply({embeds: [{
                   color:4360181,
                   title:`Members in ${(interaction?.guild?.roles as any).cache.find((role: { name: string; }) => role.name.toLowerCase() == interaction.options.getString('list')).name}`,
