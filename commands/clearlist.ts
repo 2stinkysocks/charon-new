@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders"
-import { CacheType, GuildMember, GuildMemberRoleManager, Interaction, Role } from "discord.js"
+import { CacheType, GuildMemberRoleManager, Interaction, Role } from "discord.js"
 import { Command } from "../abstractcommand"
 
 module.exports = class ClearList extends Command {
@@ -8,15 +8,17 @@ module.exports = class ClearList extends Command {
         super(async interaction => {
             if(!(interaction.member?.roles as GuildMemberRoleManager).cache.has('640734971107082240')) return interaction.reply({content: "You don't have permission to do that!", ephemeral: true})
             await interaction.guild?.members.fetch()
+            await interaction.guild?.roles.fetch()
             if(interaction.options.getString('list') === 'all') {
-                this.clear(interaction, 'vc list')
-                this.clear(interaction, 'sos list')
-                this.clear(interaction, 'rsvd list')
-                this.clear(interaction, 'allies list')
-                this.clear(interaction, 'fill list')
+                await this.clear(interaction, 'vc list')
+                await this.clear(interaction, 'sos list')
+                await this.clear(interaction, 'rsvd list')
+                await this.clear(interaction, 'allies list')
+                await this.clear(interaction, 'fill list')
             } else {
-                this.clear(interaction, interaction.options.getString('list') as string)
+                await this.clear(interaction, interaction.options.getString('list') as string)
             }
+            interaction.reply("Done!")
         })
         super.builder = new SlashCommandBuilder()
             .setName("clearlist")
@@ -37,8 +39,9 @@ module.exports = class ClearList extends Command {
     }
 
     async clear(interaction: Interaction<CacheType>, name: string) {
-        interaction.guild?.members.cache.forEach(member => {
-            member.roles.remove(interaction.guild?.roles.cache.find(role => role.name === name) as Role).catch(() => {})
+        await interaction.guild?.members.cache.forEach(member => {
+            if(member.roles.cache.find(role => role.name === name)) member.roles.remove(interaction.guild?.roles.cache.find(role => role.name === name) as Role)
         })
+        return
     }
 }
