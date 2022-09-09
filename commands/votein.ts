@@ -112,7 +112,7 @@ module.exports = class VoteIn extends Command {
                 listEmbed.addField(`Fill List`, `>>> ${listString}`)
             }
             interaction.editReply({embeds: [listEmbed]});
-            }, 500);
+            }, 1000);
         })
         super.builder = new SlashCommandBuilder()
             .setName("votein")
