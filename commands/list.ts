@@ -11,6 +11,7 @@ const fillid = '642038226734809090'
 module.exports = class List extends Command {
     constructor() {
         super(async interaction => {
+            interaction.deferReply()
             if(interaction.options.getBoolean('count')) {
                 let countVc = (interaction?.guild?.roles as any).cache.find((role: { name: string; }) => role.name == `vc list`).members.size;
                 let countSOS = (interaction?.guild?.roles as any).cache.find((role: { name: string; }) => role.name == `sos list`).members.size;
@@ -18,12 +19,12 @@ module.exports = class List extends Command {
                 let countAllies = (interaction?.guild?.roles as any).cache.find((role: { name: string; }) => role.name == `allies list`).members.size;
                 let countFill = (interaction?.guild?.roles as any).cache.find((role: { name: string; }) => role.name == `fill list`).members.size;
                 let countTotal = countVc + countSOS + countRSVD + countAllies + countFill;
-                interaction.reply(`**Votein counts:**\n\nVc: ${countVc}\nSOS: ${countSOS}\nRSVD: ${countRSVD}\nAllies: ${countAllies}\nFill: ${countFill}\n\nTotal: ${countTotal}`);
+                interaction.editReply(`**Votein counts:**\n\nVc: ${countVc}\nSOS: ${countSOS}\nRSVD: ${countRSVD}\nAllies: ${countAllies}\nFill: ${countFill}\n\nTotal: ${countTotal}`);
                 return;
               }
               if(interaction.options.getString('list')) {
                 await interaction.guild?.members.fetch()
-                interaction.reply({embeds: [{
+                interaction.editReply({embeds: [{
                   color:4360181,
                   title:`Members in ${(interaction?.guild?.roles as any).cache.find((role: { name: string; }) => role.name.toLowerCase() == interaction.options.getString('list')).name}`,
                   description: (interaction?.guild?.roles as any).cache.find((role: { name: string; }) => role.name.toLowerCase() == interaction.options.getString('list')).members.map((m: { user: { tag: any; }; })=>m.user.tag).join('\n')
@@ -43,7 +44,7 @@ module.exports = class List extends Command {
                 const alliesrole = await (interaction?.guild?.roles as RoleManager).fetch(alliesid) as Role
                 const fillrole = await (interaction?.guild?.roles as RoleManager).fetch(fillid) as Role
             if(vcrole.members.size > 0) {
-                var listString = "";
+                let listString = "";
                 vcrole.members.forEach((member: { id: any; user: { tag: string } }) => {
                     if(member.id == interaction.user.id) {
                     listString += "**__" + member.user.tag + "__**\n";
@@ -54,7 +55,7 @@ module.exports = class List extends Command {
                 listEmbed.addField(`VC List`, `>>> ${listString}`)
             }
             if(sosrole.members.size > 0) {
-                var listString = "";
+                let listString = "";
                 sosrole.members.forEach((member: { id: any; user: { tag: string } }) => {
                     if(member.id == interaction.user.id) {
                     listString += "**__" + member.user.tag + "__**\n";
@@ -65,7 +66,7 @@ module.exports = class List extends Command {
                 listEmbed.addField(`SOS List`, `>>> ${listString}`)
             }
             if(rsvdrole.members.size > 0) {
-                var listString = "";
+                let listString = "";
                 rsvdrole.members.forEach((member: { id: any; user: { tag: string } }) => {
                     if(member.id == interaction.user.id) {
                     listString += "**__" + member.user.tag + "__**\n";
@@ -76,7 +77,7 @@ module.exports = class List extends Command {
                 listEmbed.addField(`RSVD List`, `>>> ${listString}`)
             }
             if(alliesrole.members.size > 0) {
-                var listString = "";
+                let listString = "";
                 alliesrole.members.forEach((member: { id: any; user: { tag: string } }) => {
                     if(member.id == interaction.user.id) {
                     listString += "**__" + member.user.tag + "__**\n";
@@ -87,7 +88,7 @@ module.exports = class List extends Command {
                 listEmbed.addField(`Allies List`, `>>> ${listString}`)
             }
             if(fillrole.members.size > 0) {
-                var listString = "";
+                let listString = "";
                 fillrole.members.forEach((member: { id: any; user: { tag: string } }) => {
                     if(member.id == interaction.user.id) {
                     listString += "**__" + member.user.tag + "__**\n";
@@ -97,7 +98,7 @@ module.exports = class List extends Command {
                 })
                 listEmbed.addField(`Fill List`, `>>> ${listString}`)
             }
-            interaction.reply({embeds: [listEmbed]});
+            interaction.editReply({embeds: [listEmbed]});
             }, 500);
         })
         super.builder = new SlashCommandBuilder()

@@ -13,11 +13,12 @@ module.exports = class VoteOut extends Command {
     constructor() {
         super(async interaction => {
             if ((interaction.channel as TextChannel).name != `white-star-enlist` && (interaction.channel as TextChannel).name != `private-bot-playground`) return interaction.reply({content:`You can't enlist in this channel!`, ephemeral: true});
-            var vcRole = interaction.guild?.roles.cache.find(role => role.name == `vc list`) as Role
-            var sosRole = interaction.guild?.roles.cache.find(role => role.name == `sos list`) as Role
-            var rsvdRole = interaction.guild?.roles.cache.find(role => role.name == `rsvd list`) as Role
-            var alliesRole = interaction.guild?.roles.cache.find(role => role.name == `allies list`) as Role
-            var fillRole = interaction.guild?.roles.cache.find(role => role.name == `fill list`) as Role
+            interaction.deferReply()
+            let vcRole = interaction.guild?.roles.cache.find(role => role.name == `vc list`) as Role
+            let sosRole = interaction.guild?.roles.cache.find(role => role.name == `sos list`) as Role
+            let rsvdRole = interaction.guild?.roles.cache.find(role => role.name == `rsvd list`) as Role
+            let alliesRole = interaction.guild?.roles.cache.find(role => role.name == `allies list`) as Role
+            let fillRole = interaction.guild?.roles.cache.find(role => role.name == `fill list`) as Role
             (interaction.member?.roles as GuildMemberRoleManager).remove(vcRole).catch(()=>{});
             (interaction.member?.roles as GuildMemberRoleManager).remove(sosRole).catch(()=>{});
             (interaction.member?.roles as GuildMemberRoleManager).remove(rsvdRole).catch(()=>{});
@@ -37,7 +38,7 @@ module.exports = class VoteOut extends Command {
                 const alliesrole = await (interaction?.guild?.roles as RoleManager).fetch(alliesid) as Role
                 const fillrole = await (interaction?.guild?.roles as RoleManager).fetch(fillid) as Role
             if(vcrole.members.size > 0) {
-                var listString = "";
+                let listString = "";
                 vcrole.members.forEach((member: { id: any; user: { tag: string } }) => {
                     if(member.id == interaction.user.id) {
                     listString += "**__" + member.user.tag + "__**\n";
@@ -48,7 +49,7 @@ module.exports = class VoteOut extends Command {
                 listEmbed.addField(`VC List`, `>>> ${listString}`)
             }
             if(sosrole.members.size > 0) {
-                var listString = "";
+                let listString = "";
                 sosrole.members.forEach((member: { id: any; user: { tag: string } }) => {
                     if(member.id == interaction.user.id) {
                     listString += "**__" + member.user.tag + "__**\n";
@@ -59,7 +60,7 @@ module.exports = class VoteOut extends Command {
                 listEmbed.addField(`SOS List`, `>>> ${listString}`)
             }
             if(rsvdrole.members.size > 0) {
-                var listString = "";
+                let listString = "";
                 rsvdrole.members.forEach((member: { id: any; user: { tag: string } }) => {
                     if(member.id == interaction.user.id) {
                     listString += "**__" + member.user.tag + "__**\n";
@@ -70,7 +71,7 @@ module.exports = class VoteOut extends Command {
                 listEmbed.addField(`RSVD List`, `>>> ${listString}`)
             }
             if(alliesrole.members.size > 0) {
-                var listString = "";
+                let listString = "";
                 alliesrole.members.forEach((member: { id: any; user: { tag: string } }) => {
                     if(member.id == interaction.user.id) {
                     listString += "**__" + member.user.tag + "__**\n";
@@ -81,7 +82,7 @@ module.exports = class VoteOut extends Command {
                 listEmbed.addField(`Allies List`, `>>> ${listString}`)
             }
             if(fillrole.members.size > 0) {
-                var listString = "";
+                let listString = "";
                 fillrole.members.forEach((member: { id: any; user: { tag: string } }) => {
                     if(member.id == interaction.user.id) {
                     listString += "**__" + member.user.tag + "__**\n";
@@ -91,7 +92,7 @@ module.exports = class VoteOut extends Command {
                 })
                 listEmbed.addField(`Fill List`, `>>> ${listString}`)
             }
-            interaction.reply({embeds: [listEmbed]});
+            interaction.editReply({embeds: [listEmbed]});
             }, 500);
         })
         super.builder = new SlashCommandBuilder()

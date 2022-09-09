@@ -19,25 +19,27 @@ module.exports = class VoteIn extends Command {
             if ((interaction.member?.roles as GuildMemberRoleManager).cache.find(role => role.name == `rsvd list`)) return interaction.reply({content:`You have voted into rsvd already!`, ephemeral: true});
             if ((interaction.member?.roles as GuildMemberRoleManager).cache.find(role => role.name == "allies list")) return interaction.reply({content:`You have voted into allies already!`, ephemeral: true});
             if ((interaction.member?.roles as GuildMemberRoleManager).cache.find(role => role.name == `fill list`)) return interaction.reply({content:`You have voted into fill already!`, ephemeral: true});
+            interaction.deferReply()
+            let role
             switch (list) {
             case `vc`:
-                var role = interaction.guild?.roles.cache.find(role => role.name == `vc list`) as Role
+                role = interaction.guild?.roles.cache.find(role => role.name == `vc list`) as Role
                 (interaction.member?.roles as GuildMemberRoleManager).add(role).catch(console.error);
                 break;
             case `sos`:
-                var role = interaction.guild?.roles.cache.find(role => role.name == `sos list`) as Role
+                role = interaction.guild?.roles.cache.find(role => role.name == `sos list`) as Role
                 (interaction.member?.roles as GuildMemberRoleManager).add(role).catch(console.error);
                 break;
             case `rsvd`:
-                var role = interaction.guild?.roles.cache.find(role => role.name == `rsvd list`) as Role
+                role = interaction.guild?.roles.cache.find(role => role.name == `rsvd list`) as Role
                 (interaction.member?.roles as GuildMemberRoleManager).add(role).catch(console.error);
                 break;
             case `allies`:
-                var role = interaction.guild?.roles.cache.find(role => role.name == `allies list`) as Role
+                role = interaction.guild?.roles.cache.find(role => role.name == `allies list`) as Role
                 (interaction.member?.roles as GuildMemberRoleManager).add(role).catch(console.error);
                 break;
             case `fill`:
-                var role = interaction.guild?.roles.cache.find(role => role.name == `fill list`) as Role
+                role = interaction.guild?.roles.cache.find(role => role.name == `fill list`) as Role
                 (interaction.member?.roles as GuildMemberRoleManager).add(role).catch(console.error);
                 break;
             }
@@ -55,7 +57,7 @@ module.exports = class VoteIn extends Command {
                 const alliesrole = await (interaction?.guild?.roles as RoleManager).fetch(alliesid) as Role
                 const fillrole = await (interaction?.guild?.roles as RoleManager).fetch(fillid) as Role
             if(vcrole.members.size > 0) {
-                var listString = "";
+                let listString = "";
                 vcrole.members.forEach((member: { id: any; user: { tag: string } }) => {
                     if(member.id == interaction.user.id) {
                     listString += "**__" + member.user.tag + "__**\n";
@@ -66,7 +68,7 @@ module.exports = class VoteIn extends Command {
                 listEmbed.addField(`VC List`, `>>> ${listString}`)
             }
             if(sosrole.members.size > 0) {
-                var listString = "";
+                let listString = "";
                 sosrole.members.forEach((member: { id: any; user: { tag: string } }) => {
                     if(member.id == interaction.user.id) {
                     listString += "**__" + member.user.tag + "__**\n";
@@ -77,7 +79,7 @@ module.exports = class VoteIn extends Command {
                 listEmbed.addField(`SOS List`, `>>> ${listString}`)
             }
             if(rsvdrole.members.size > 0) {
-                var listString = "";
+                let listString = "";
                 rsvdrole.members.forEach((member: { id: any; user: { tag: string } }) => {
                     if(member.id == interaction.user.id) {
                     listString += "**__" + member.user.tag + "__**\n";
@@ -88,7 +90,7 @@ module.exports = class VoteIn extends Command {
                 listEmbed.addField(`RSVD List`, `>>> ${listString}`)
             }
             if(alliesrole.members.size > 0) {
-                var listString = "";
+                let listString = "";
                 alliesrole.members.forEach((member: { id: any; user: { tag: string } }) => {
                     if(member.id == interaction.user.id) {
                     listString += "**__" + member.user.tag + "__**\n";
@@ -99,7 +101,7 @@ module.exports = class VoteIn extends Command {
                 listEmbed.addField(`Allies List`, `>>> ${listString}`)
             }
             if(fillrole.members.size > 0) {
-                var listString = "";
+                let listString = "";
                 fillrole.members.forEach((member: { id: any; user: { tag: string } }) => {
                     if(member.id == interaction.user.id) {
                     listString += "**__" + member.user.tag + "__**\n";
@@ -109,7 +111,7 @@ module.exports = class VoteIn extends Command {
                 })
                 listEmbed.addField(`Fill List`, `>>> ${listString}`)
             }
-            interaction.reply({embeds: [listEmbed]});
+            interaction.editReply({embeds: [listEmbed]});
             }, 500);
         })
         super.builder = new SlashCommandBuilder()
