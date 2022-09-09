@@ -7,7 +7,7 @@ module.exports = class AFK extends Command {
 
     constructor() {
         super(interaction => {
-            var now = new Date();
+            let now = new Date();
             if(afk[interaction.user.id] == undefined) {
                 if(interaction.options.getString('message') == null) {
                     afk[interaction.user.id] = {
@@ -29,8 +29,8 @@ module.exports = class AFK extends Command {
                     afk[interaction.user.id].afktime = now.getTime()
                     afk[interaction.user.id].message = interaction.options.getString('message') as string
                 }
-                var ms = Math.floor((new Date().getTime() - afk[interaction.user.id].afktime) / 1000) * 1000;
-                var prettyTime = pms(ms, {verbose: true});
+                let ms = Math.floor((new Date().getTime() - afk[interaction.user.id].afktime) / 1000) * 1000;
+                let prettyTime = pms(ms, {verbose: true});
                 interaction.reply("Afk message updated. Current afk time: " + prettyTime)
             }
         })

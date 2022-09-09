@@ -12,7 +12,7 @@ module.exports = class AutoVote extends Command {
 
             if(bannedAutoVoters[interaction.user.id] == true) return interaction.reply({content: "You are currently banned from using this feature. Contact an Officer if you believe this is an error.", ephemeral: true});
             
-            // var name = args.join(" ").slice(args[0].length).trim().toLowerCase();
+            // let name = args.join(" ").slice(args[0].length).trim().toLowerCase();
             if(interaction.options.getString('operation') == "ban") {
                 let userToBan = interaction.options.getMember('user') as GuildMember
                 if(!(interaction.member?.roles as GuildMemberRoleManager).cache.some(role => role.name === "Officer")) return interaction.reply({content: "This is an Officer only command!", ephemeral: true});
@@ -37,10 +37,10 @@ module.exports = class AutoVote extends Command {
             }
 
             if(interaction.options.getString('operation') == 'list') {
-                var autovoteList = "";
+                let autovoteList = "";
                 await interaction.guild?.members.fetch()
                 Object.keys(recurringVoters.users).forEach(async voter => {
-                    var currentVoter = client.users.cache.get(voter) as User
+                    let currentVoter = client.users.cache.get(voter) as User
                     autovoteList += recurringVoters.users[voter] + ' - ' + currentVoter.tag + '\n';
                 });
                 if(autovoteList == "") return interaction.reply({content: "There are no current autovoters for any list!", ephemeral: false});
@@ -55,7 +55,7 @@ module.exports = class AutoVote extends Command {
             if(interaction.options.getString('operation') == "enable") {
                 if(recurringVoters.users[interaction.user.id] != null) return interaction.reply({content: `You are already set to vote in automatically to the ${recurringVoters.users[interaction.user.id]} list!`, ephemeral: true});
                 if(!interaction.options.getString('list')) return interaction.reply({content: "You have to specify a list to vote in to! (vc, sos, rsvd, allies, fill)", ephemeral: true});
-                var list = interaction.options.getString('list')?.toLowerCase() as string
+                let list = interaction.options.getString('list')?.toLowerCase() as string
                 recurringVoters.users[interaction.user.id] = list
                 fs.writeFile('./recurringVoters.json', JSON.stringify(recurringVoters), function (err) {
                 if (err) return console.log(err);

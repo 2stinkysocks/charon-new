@@ -18,7 +18,6 @@ module.exports = class Message extends Listener {
             imageChannels.push(vanity);
             imageChannels.forEach(async channel => {
                 if(message.channel.id == channel.id) {
-                    console.log("found " + channel.id)            
                     if(message.attachments.size == 0 && !(message.content.includes('https://') || message.content.includes('http://'))) {
                         let msg = await message.channel.send({embeds: [
                             new MessageEmbed()
@@ -55,10 +54,10 @@ module.exports = class Message extends Listener {
 
             if(message.content == 'triggerautovote' && message.member?.roles.cache.has('640734971107082240')) {
                 Object.keys(recurringVoters.users).forEach(value => {
-                    var guild = client.guilds.cache.get('640692199557955587') as Guild
-                    var listRole = guild.roles.cache.find(role => role.name === recurringVoters.users[value] + " list") as Role
+                    let guild = client.guilds.cache.get('640692199557955587') as Guild
+                    let listRole = guild.roles.cache.find(role => role.name === recurringVoters.users[value] + " list") as Role
                     guild.members.cache.get(value)?.roles.add(listRole);
-                    var random = Math.round(Math.random() * 2); // number to multiply by is 0 - that number
+                    let random = Math.round(Math.random() * 2); // number to multiply by is 0 - that number
                     switch(random) {
                         case 0:
                             guild.members.cache.get(value)?.send({files: ['https://cdn.discordapp.com/attachments/640704506014728204/767109348806623252/image0.gif'], content: `It’s time again to battle those that would oppose us! Make them pay for their insolence!\n\nYou have been enlisted into this week's ${recurringVoters.users[value]} White Star!\n\nThe Society thanks you for your continued service! O7~:skull_crossbones:\n\n(In the future, if you want to disable this, you can use **/autovote disable**)`}).catch(()=>{});

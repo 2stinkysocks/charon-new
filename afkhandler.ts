@@ -15,7 +15,7 @@ export class AFKHandler {
                 setTimeout(() => msg.delete(), 1000)
             });
         }
-        var allowedToSend = false;
+        let allowedToSend = false;
         this.allowedChannelIds.forEach((id: string) => {
             if(id == message.channel.id) {
                 allowedToSend = true;
@@ -24,9 +24,9 @@ export class AFKHandler {
         if(message.mentions.members != null && allowedToSend) {
             message.mentions.members.forEach(member => {
                 if(afk[member.id] != undefined) {
-                    var now = new Date();
-                    var ms = Math.floor((now.getTime() - afk[member.id].afktime) / 1000) * 1000;
-                    var prettyTime = pms(ms, {verbose: true});
+                    let now = new Date();
+                    let ms = Math.floor((now.getTime() - afk[member.id].afktime) / 1000) * 1000;
+                    let prettyTime = pms(ms, {verbose: true});
                     message.channel.send(message.guild?.members.cache.get(member.id)?.user.username + " is AFK: " + afk[member.id].message + " - " + prettyTime + " ago.");
                 }
             });

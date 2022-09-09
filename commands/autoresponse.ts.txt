@@ -8,7 +8,7 @@
 // module.exports = class AutoResponse extends Command {
 //   constructor() {
 //     super(async (interaction) => {
-//       var hasResponseAlready = false
+//       let hasResponseAlready = false
 //       if (interaction.options.getString('operation') === `create`) {
 //         Object.keys(autoresponses).forEach(function (response) {
 //           if (
@@ -110,9 +110,9 @@
 //         message.channel.send(`Response deleted.`)
 //       }
 //       if (args[0] === `list`) {
-//         var responseList = ""
+//         let responseList = ""
 //         Object.keys(autoresponses).forEach(function (response) {
-//           var responsecreator = client.users.cache.get(
+//           let responsecreator = client.users.cache.get(
 //             autoresponses[response].creatorid
 //           )
 //           responseList += response + " - " + responsecreator.tag
