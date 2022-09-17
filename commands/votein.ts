@@ -19,7 +19,7 @@ module.exports = class VoteIn extends Command {
             if ((interaction.member?.roles as GuildMemberRoleManager).cache.find(role => role.name == `rsvd list`)) return interaction.reply({content:`You have voted into rsvd already!`, ephemeral: true});
             if ((interaction.member?.roles as GuildMemberRoleManager).cache.find(role => role.name == "allies list")) return interaction.reply({content:`You have voted into allies already!`, ephemeral: true});
             if ((interaction.member?.roles as GuildMemberRoleManager).cache.find(role => role.name == `fill list`)) return interaction.reply({content:`You have voted into fill already!`, ephemeral: true});
-            interaction.deferReply()
+            await interaction.deferReply()
             let role
             switch (list) {
             case `vc`:

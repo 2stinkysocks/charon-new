@@ -13,7 +13,7 @@ module.exports = class VoteOut extends Command {
     constructor() {
         super(async interaction => {
             if ((interaction.channel as TextChannel).name != `white-star-enlist` && (interaction.channel as TextChannel).name != `private-bot-playground`) return interaction.reply({content:`You can't enlist in this channel!`, ephemeral: true});
-            interaction.deferReply()
+            await interaction.deferReply()
             let vcRole = interaction.guild?.roles.cache.find(role => role.name == `vc list`) as Role
             let sosRole = interaction.guild?.roles.cache.find(role => role.name == `sos list`) as Role
             let rsvdRole = interaction.guild?.roles.cache.find(role => role.name == `rsvd list`) as Role

@@ -11,7 +11,8 @@ const fillid = '642038226734809090'
 module.exports = class List extends Command {
     constructor() {
         super(async interaction => {
-            interaction.deferReply()
+            await interaction.deferReply()
+            await interaction.guild?.members.fetch()
             if(interaction.options.getBoolean('count')) {
                 let countVc = (interaction?.guild?.roles as any).cache.find((role: { name: string; }) => role.name == `vc list`).members.size;
                 let countSOS = (interaction?.guild?.roles as any).cache.find((role: { name: string; }) => role.name == `sos list`).members.size;
@@ -23,7 +24,6 @@ module.exports = class List extends Command {
                 return;
               }
               if(interaction.options.getString('list')) {
-                await interaction.guild?.members.fetch()
                 interaction.editReply({embeds: [{
                   color:4360181,
                   title:`Members in ${(interaction?.guild?.roles as any).cache.find((role: { name: string; }) => role.name.toLowerCase() == interaction.options.getString('list')).name}`,
